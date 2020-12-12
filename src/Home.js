@@ -14,6 +14,16 @@ class Home extends React.Component {
     BooksAPI.getAll().then((books) => this.setState({ books }));
   }
 
+  switchShelf = (book, newShelf) => {
+    BooksAPI.update(book, newShelf)
+      .then(() => BooksAPI.getAll())
+      .then((books) => {
+        this.setState((oldState) => ({
+          books,
+        }));
+      });
+  };
+
   render() {
     return (
       <div className="list-books">
@@ -27,16 +37,19 @@ class Home extends React.Component {
               books={this.state.books.filter(
                 (book) => book.shelf === "currentlyReading"
               )}
+              switchShelf={this.switchShelf}
             />
             <Shelf
               shelfName={"Want to Read"}
               books={this.state.books.filter(
                 (book) => book.shelf === "wantToRead"
               )}
+              switchShelf={this.switchShelf}
             />
             <Shelf
               shelfName={"Read"}
               books={this.state.books.filter((book) => book.shelf === "read")}
+              switchShelf={this.switchShelf}
             />
           </div>
         </div>
