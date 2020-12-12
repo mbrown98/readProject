@@ -19,7 +19,7 @@ const Book = ({ book, switchShelf }) => {
           }}
         />
         <div className="book-shelf-changer">
-          <select onChange={moveBook} defaultValue={book.shelf}>
+          <select onChange={moveBook} defaultValue={book.shelf || "none"}>
             <option value="move" disabled>
               Move to...
             </option>
@@ -31,7 +31,7 @@ const Book = ({ book, switchShelf }) => {
         </div>
       </div>
       <div className="book-title">{book.title}</div>
-      <div className="book-authors">{book.authors[0]}</div>
+      <div className="book-authors">{book.authors && book.authors[0]}</div>
     </div>
   );
 };

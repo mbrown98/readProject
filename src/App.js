@@ -1,13 +1,29 @@
 import React from "react";
-import { Route, Switch, Link } from "react-router-dom";
+import { Route } from "react-router-dom";
 import * as BooksAPI from "./BooksAPI";
-import Book from "./Book";
 
 import Search from "./Search";
 import Home from "./Home";
 import "./App.css";
 
 class BooksApp extends React.Component {
+  state = {
+    books: [],
+  };
+
+  componentDidMount() {
+    BooksAPI.getAll().then((books) => this.setState({ books }));
+  }
+
+  switchShelf = (book, newShelf) => {
+    BooksAPI.update(book, newShelf)
+      .then(() => BooksAPI.getAll())
+      .then((books) => {
+        this.setState((oldState) => ({
+          books,
+        }));
+      });
+  };
   render() {
     return (
       <div className="app">
@@ -17,7 +33,13 @@ class BooksApp extends React.Component {
             <Search books={this.state.books} switchShelf={this.switchShelf} />
           )}
         />
-        <Route path="/" exact component={Home} />
+        <Route
+          path="/"
+          exact
+          render={() => (
+            <Home books={this.state.books} switchShelf={this.switchShelf} />
+          )}
+        />
       </div>
     );
   }

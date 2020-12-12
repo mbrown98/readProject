@@ -1,29 +1,9 @@
 import React from "react";
-import { Route, Switch, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Shelf from "./Shelf";
-import * as BooksAPI from "./BooksAPI";
-
 import "./App.css";
 
 class Home extends React.Component {
-  state = {
-    books: [],
-  };
-
-  componentDidMount() {
-    BooksAPI.getAll().then((books) => this.setState({ books }));
-  }
-
-  switchShelf = (book, newShelf) => {
-    BooksAPI.update(book, newShelf)
-      .then(() => BooksAPI.getAll())
-      .then((books) => {
-        this.setState((oldState) => ({
-          books,
-        }));
-      });
-  };
-
   render() {
     return (
       <div className="list-books">
@@ -34,29 +14,26 @@ class Home extends React.Component {
           <div>
             <Shelf
               shelfName={"Currently Reading"}
-              books={this.state.books.filter(
+              books={this.props.books.filter(
                 (book) => book.shelf === "currentlyReading"
               )}
-              switchShelf={this.switchShelf}
+              switchShelf={this.props.switchShelf}
             />
             <Shelf
               shelfName={"Want to Read"}
-              books={this.state.books.filter(
+              books={this.props.books.filter(
                 (book) => book.shelf === "wantToRead"
               )}
-              switchShelf={this.switchShelf}
+              switchShelf={this.props.switchShelf}
             />
             <Shelf
               shelfName={"Read"}
-              books={this.state.books.filter((book) => book.shelf === "read")}
-              switchShelf={this.switchShelf}
+              books={this.props.books.filter((book) => book.shelf === "read")}
+              switchShelf={this.props.switchShelf}
             />
           </div>
         </div>
         <div className="open-search">
-          {/* <button onClick={() => this.setState({ showSearchPage: true })}>
-            Add a book
-          </button> */}
           <Link to="/search">Search</Link>
         </div>
       </div>
