@@ -8,7 +8,6 @@ class Search extends React.Component {
   state = { searchInput: "", bookResults: [] };
 
   searchBooks = (e) => {
-    console.log("runnnn");
     if (!e.target.value) {
       this.setState({ bookResults: [] });
     }
@@ -37,7 +36,6 @@ class Search extends React.Component {
           <ol className="books-grid" />
           {this.state.bookResults.length > 0 &&
             this.state.bookResults.map((book) => {
-              console.log("book", book);
               return <Book book={book} switchShelf={this.props.switchShelf} />;
             })}
         </div>
