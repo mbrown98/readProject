@@ -2,7 +2,6 @@ import React from "react";
 import "./App.css";
 
 const Book = ({ book, switchShelf }) => {
-  console.log("book", book);
   const moveBook = (e) => {
     switchShelf(book, e.target.value);
   };
